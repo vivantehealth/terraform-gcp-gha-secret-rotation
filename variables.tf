@@ -1,5 +1,5 @@
 variable "target_service_account_id" {
-  description = "Service account to rotate keys for. Folder terraformer or folder terraform planner"
+  description = "Service account to rotate keys for. Folder terraformer or folder terraform planner. Needs to be in the format projects/<project>/serviceAccounts/<email>"
   type        = string
 }
 
