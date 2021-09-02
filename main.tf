@@ -12,7 +12,7 @@ resource "google_cloud_scheduler_job" "rotate_key" {
     attributes = {
       repo                  = var.repo
       repoEnvironment       = var.repo_environment
-      serviceAccount        = var.target_service_account
+      serviceAccount        = var.target_service_account_id
       environmentSecretName = var.environment_secret_name
       keyTtlSeconds         = var.key_ttl_seconds
     }
@@ -21,7 +21,7 @@ resource "google_cloud_scheduler_job" "rotate_key" {
 
 # Allow the cloud function to rotate keys
 resource "google_service_account_iam_member" "sa_rotate_key" {
-  service_account_id = var.target_service_account
+  service_account_id = var.target_service_account_id
   role               = "roles/iam.serviceAccountKeyAdmin"
-  member             = "serviceAccount:${var.cf_runtime_service_account}"
+  member             = "serviceAccount:${var.cf_runtime_service_account_email}"
 }
