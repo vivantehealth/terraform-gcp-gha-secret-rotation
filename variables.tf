@@ -24,6 +24,12 @@ variable "topic_id" {
   type        = string
 }
 
+variable "region" {
+  description = "GCP region to create the job in"
+  type        = string
+  default     = "us-central1"
+}
+
 variable "project" {
   description = "GCP project where the service account exists"
   type        = string
