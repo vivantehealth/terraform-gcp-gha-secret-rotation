@@ -2,7 +2,7 @@
 resource "google_cloud_scheduler_job" "rotate_key" {
   schedule    = formatdate(var.cron_expresssion, timeadd(timestamp(), var.cron_offset))
   name        = "rotate-${var.repo}-${var.repo_environment}-${var.environment_secret_name}-key"
-  description = "rotate the gcp service account keys for ${var.target_service_account_id} in for repo ${var.repo}'s github actions environment ${var.repo_environment} secret ${var.environment_secret_name}"
+  description = "Rotate the GCP service account key for ${var.target_service_account_id} in for repo '${var.repo}', repo-environment '${var.repo_environment}' secret '${var.environment_secret_name}'"
   project     = var.project
   lifecycle {
     ignore_changes = [schedule]
