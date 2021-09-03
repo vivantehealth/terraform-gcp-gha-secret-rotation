@@ -25,7 +25,7 @@ variable "topic_id" {
 }
 
 variable "project" {
-  description = "GCP project where the service account exists. Probably <env>-terraform"
+  description = "GCP project where the service account exists"
   type        = string
 }
 

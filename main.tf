@@ -1,8 +1,8 @@
 # Create a scheduled job to handle key rotation for the environment secret
 resource "google_cloud_scheduler_job" "rotate_key" {
   schedule    = formatdate(var.cron_expresssion, timeadd(timestamp(), var.cron_offset))
-  name        = "rotate-key"
-  description = "rotate the gcp keys in github actions environment secrets"
+  name        = "rotate-${var.repo}-${var.repo_environment}-${var.environment_secret_name}-key"
+  description = "rotate the gcp service account keys for ${var.target_service_account_id} in for repo ${var.repo}'s github actions environment ${var.repo_environment} secret ${var.environment_secret_name}"
   project     = var.project
   lifecycle {
     ignore_changes = [schedule]
