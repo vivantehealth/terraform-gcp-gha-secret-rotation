@@ -43,7 +43,9 @@ variable "cf_runtime_service_account_email" {
 variable "cron_expresssion" {
   description = "cron expression used for scheduler to trigger the job. since this is run through terraform's formatdate() function, letters can be used for the values to get the current date/time (+<cron_offset>)"
   # run in <cron_minute_offset> minutes, and then every 24 hours after that
-  default = "m h * * *"
+  #default = "m h * * *"
+  # run in <cron_minute_offset> minutes, and then every hour after that
+  default = "m * * * *"
   type    = string
 }
 
@@ -54,7 +56,10 @@ variable "cron_offset" {
 }
 
 variable "key_ttl_seconds" {
+  # 25 hours
+  #default     = 90000
+  # 2 hours
+  default     = 7200
   description = "How long the service account key should live. Ensure this is compatible with the cron expression and any rotation buffer needed"
-  default     = 90000
   type        = number
 }
