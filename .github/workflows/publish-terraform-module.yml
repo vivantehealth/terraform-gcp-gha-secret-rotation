@@ -1,4 +1,7 @@
-name: Publish Terraform module
+# When a commit is made to main, perform a GitHub release, bumping the semantic
+# version. Defaults to `default-bump` param, override with
+# `#major`/`#minor`/`#patch` in the commit message
+name: Validate and Publish Terraform module
 
 on:
   push:
@@ -29,7 +32,7 @@ jobs:
         run: terraform validate
 
   release:
-    name: Release
+    name: GitHub Release
     if: github.ref == 'refs/heads/main'
     needs:
       - validate
@@ -37,19 +40,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
-      - name: GitHub Tag Bump
-        uses: anothrNick/github-tag-action@1.36.0
-        id: tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEFAULT_BUMP: patch
-          WITH_V: false
-          DRY_RUN: true
-      - name: List Release
-        run: echo "This will create the release '${{ steps.tag.outputs.new_tag }}'"
-      - name: Create Release
-        uses: ncipollo/release-action@v1
+      - name: GitHub semver release
+        uses: vivantehealth/github-semver-release-action@v0
         with:
-          body: ${{ github.event.head_commit.message }}
-          tag: ${{ steps.tag.outputs.new_tag }}
-
+          default-bump: minor
