@@ -1,12 +1,10 @@
-# When a commit is made to main, perform a GitHub release, bumping the semantic
-# version. Defaults to `default-bump` param, override with
-# `#major`/`#minor`/`#patch` in the commit message
-name: Validate and Publish Terraform module
+name: Validate Terraform module
 
 on:
   push:
     branches:
       - "*"
+      - "!main"
 
 jobs:
   validate:
@@ -30,17 +28,3 @@ jobs:
         run: terraform init -input=false -backend=false
       - name: TF validate
         run: terraform validate
-
-  release:
-    name: GitHub Release
-    if: github.ref == 'refs/heads/main'
-    needs:
-      - validate
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
-      - name: GitHub semver release
-        uses: vivantehealth/github-semver-release-action@v0
-        with:
-          default-bump: minor
